@@ -68,7 +68,7 @@ module VagrantPlugins
                 def identified_vm( str )
                     case str
                         when /^( on the last VM|)$/
-                            get_vm( @last_mentioned_vm )
+                            get_vm( @last_machine_mentioned )
                         when /^ on the VM(?: called|) "([^"]+)"$/
                             get_vm( $1 )
                     end
