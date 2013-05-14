@@ -65,7 +65,7 @@ module VagrantPlugins
 
                 end
 
-                def identified_vm
+                def identified_vm( str )
                     case str
                         when /^( on the last VM|)$/
                             get_vm( @last_mentioned_vm )
