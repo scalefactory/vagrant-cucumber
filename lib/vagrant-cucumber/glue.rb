@@ -33,6 +33,10 @@ module VagrantPlugins
                     return @@instance ||= VagrantGlue.new
                 end
 
+                def get_last_vm
+                    get_vm( @last_machine_mentioned )
+                end
+
                 def get_vm( vmname )
 
                     machine_provider = nil
@@ -68,7 +72,7 @@ module VagrantPlugins
                 def identified_vm( str )
                     case str
                         when /^( on the last VM|)$/
-                            get_vm( @last_machine_mentioned )
+                            get_last_vm
                         when /^ on the VM(?: called|) "([^"]+)"$/
                             get_vm( $1 )
                     end
