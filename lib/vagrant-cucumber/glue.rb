@@ -33,6 +33,10 @@ module VagrantPlugins
                     return @@instance ||= VagrantGlue.new
                 end
 
+                def vagrant_env
+                    @vagrant_env
+                end
+
                 def get_last_vm
                     get_vm( @last_machine_mentioned )
                 end
