@@ -20,3 +20,7 @@ After('~@norollback') do |scenario|
     vagrant_glue.vagrant_env.cli('sandbox', 'rollback' )
 
 end
+
+After('@norollback') do |scenario|
+        puts "Saw @norollback tag - not rolling back"
+end
