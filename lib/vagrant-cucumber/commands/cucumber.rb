@@ -10,11 +10,7 @@ module VagrantPlugins
                 require 'vagrant-cucumber/cucumber/formatter/pretty'
                 require 'vagrant-cucumber/cucumber/formatter/html'
 
-                opts = OptionParser.new do |o|
-                end
-
-                argv = parse_options(opts)
-                failure = ::Cucumber::Cli::Main.execute(argv)    
+                failure = ::Cucumber::Cli::Main.execute(@argv)    
 
             end
 
