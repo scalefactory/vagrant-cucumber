@@ -46,11 +46,13 @@ module VagrantPlugins
                     machine_provider = nil
                     machine_name     = nil
 
+                    # If this machine name is not configured, blow up
+                    if ! @vagrant_env.machine_names.index(vmname.to_sym)
+                        raise Vagrant::Errors::VMNotFoundError, :name => vmname
+                    end
+
                     @vagrant_env.active_machines.each do |a_name, a_provider|
 
-                        # XXX per the docs, this won't return VMs that
-                        #  haven't been created.  How do we deal with this?
-                        
                         if a_name == vmname.to_sym
                             machine_provider = a_provider
                             machine_name     = a_name
@@ -59,7 +61,11 @@ module VagrantPlugins
                     end
 
                     if !machine_name
-                        raise Vagrant::Errors::VMNotFoundError, :name => vmname
+
+                        raise "The VM '#{vmname}' is configured in the Vagrantfile "+
+                            "but has not been started.  Run 'vagrant up #{vmname}' and "+
+                            "specify a provider if necessary."
+
                     end
 
                     machine_provider ||= vagrant_env.default_provider
