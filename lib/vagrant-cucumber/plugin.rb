@@ -1,7 +1,7 @@
 begin
     require "vagrant"
 rescue LoadError
-    raise "The Vagrant AWS plugin must be run within Vagrant."
+    raise "The Vagrant Cucumber plugin must be run within Vagrant."
 end
 
 module VagrantPlugins
