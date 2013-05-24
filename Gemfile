@@ -3,11 +3,10 @@ source "http://rubygems.org"
 # Specify your gem's dependencies in vagrant-cucumber.gemspec
 gemspec
 
-gem 'sahara', :git => 'git@github.com:ryuzee/sahara.git'
-
 group :development do
   # We depend on Vagrant for development, but we don't add it as a
   # gem dependency because we expect to be installed within the
   # Vagrant environment itself using `vagrant plugin`.
-  gem "vagrant", :git => "git://github.com/mitchellh/vagrant.git"
+  gem "vagrant",      :git => "git://github.com/mitchellh/vagrant.git"
+  gem "vagrant-snap", :git => "git@github.com:scalefactory/vagrant-snap.git"
 end

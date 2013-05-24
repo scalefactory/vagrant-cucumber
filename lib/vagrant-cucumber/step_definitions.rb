@@ -4,7 +4,7 @@ Given /^there is a running VM called "([^"]*)"$/ do |vmname|
     machine = vagrant_glue.get_vm( vmname )
     machine.action(:up)
 
-    vagrant_glue.vagrant_env.cli('sandbox', 'on', vmname )
+    machine.action(:snapshot_take)
 
 end
 
@@ -17,7 +17,7 @@ end
 After('~@norollback') do |scenario|
 
     puts "Rolling back VM states"
-    vagrant_glue.vagrant_env.cli('sandbox', 'rollback' )
+    vagrant_glue.vagrant_env.cli('snap', 'rollback' )
 
 end
 
