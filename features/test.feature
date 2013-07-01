@@ -16,7 +16,7 @@ Feature: VM Running
         And the stdout of that shell command should match /root/
         And the stdout of that shell command should not match /vagrant/
 
-    @current
+
     Scenario: Write a file so that we can check we're rolling back properly
 
         Given there is a running VM called "default"

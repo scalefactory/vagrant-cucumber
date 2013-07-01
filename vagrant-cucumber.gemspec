@@ -7,20 +7,28 @@ Gem::Specification.new do |s|
   s.version     = VagrantPlugins::Cucumber::VERSION
   s.authors     = ["Jon Topper"]
   s.email       = ["jon@scalefactory.com"]
-  s.homepage    = ""
+  s.homepage    = "https://github.com/scalefactory/vagrant-cucumber"
   s.summary     = %q{Cucumber support for Vagrant}
   s.description = %q{This plugin makes it possible for Cucumber to interact with Vagrant}
 
   s.rubyforge_project = "vagrant-cucumber"
 
-  s.files         = `git ls-files`.split("\n")
+  files = `git ls-files`.split("\n")
+  ignore = %w{Gemfile Rakefile Vagrantfile .gitignore}
+
+  files.delete_if do |f|
+      ignore.any? do |i|
+          File.fnmatch(i, f, File::FNM_PATHNAME) ||
+          File.fnmatch(i, File.basename(f), File::FNM_PATHNAME)
+      end
+  end
+  
+  s.add_runtime_dependency "cucumber", ">=1.3.2"
+  s.add_runtime_dependency "vagrant-zz-multiprovider-snap", ">=0.0.2"
+
+  s.files         = files
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
-
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  
-  s.add_runtime_dependency "cucumber"
 
 end
