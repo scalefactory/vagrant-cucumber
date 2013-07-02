@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   end
   
   s.add_runtime_dependency "cucumber", ">=1.3.2"
-  s.add_runtime_dependency "vagrant-zz-multiprovider-snap", ">=0.0.2"
+  s.add_runtime_dependency "vagrant-zz-multiprovider-snap", ">=0.0.3"
 
   s.files         = files
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
