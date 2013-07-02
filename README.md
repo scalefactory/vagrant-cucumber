@@ -112,5 +112,6 @@ Other step definitions and hooks are defined in ```lib/vagrant-cucumber/step_def
 
 
 
-
-
+License
+-------
+vagrant-cucumber is licensed under the MIT license.
