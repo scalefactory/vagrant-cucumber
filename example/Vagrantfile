@@ -1,0 +1,18 @@
+
+#Vagrant.require_plugin "vagrant-zz-multiprovider-snap"
+#Vagrant.require_plugin "vagrant-cucumber"
+
+Vagrant.configure("2") do |config|
+
+    config.vm.box     = "precise32"
+    config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+
+    config.vm.define :vm1 do |vm1|
+        vm1.vm.hostname = 'vm1'
+    end
+
+    config.vm.define :vm2 do |vm2|
+        vm2.vm.hostname = 'vm2'
+    end
+
+end
