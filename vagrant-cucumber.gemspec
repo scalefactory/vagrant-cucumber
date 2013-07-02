@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.rubyforge_project = "vagrant-cucumber"
 
   files = `git ls-files`.split("\n")
-  ignore = %w{Gemfile Rakefile Vagrantfile .gitignore}
+  ignore = %w{Gemfile Rakefile .gitignore}
 
   files.delete_if do |f|
       ignore.any? do |i|
@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "vagrant-zz-multiprovider-snap", ">=0.0.3"
 
   s.files         = files
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
