@@ -65,11 +65,13 @@ The git source of the plugin includes a folder called "example", which contains
 a Vagrantfile and features directory which demonstrates the plugin in action.
 
 The Vagrantfile defines two basic VMs which will be used to run our tests.
+It will work with either the Virtualbox or the VMWare Fusion provider.
 
 Use ```vagrant up``` in that folder in order to start the default VM. (In the
 current version of the plugin, VMs must be running before they can be used
-in tests).  If you don't already have the standard precise32 vagrant box, it 
-will be fetched from the Vagrant website.
+in tests).  If you don't already have the standard precise64 vagrant box, it 
+will be fetched from the Vagrant website.  If you prefer to use the VMWare
+provider, add ```--provider=vmware_fusion``` to the commandline.
 
 To run all the tests, run 
 
