@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   
   s.add_runtime_dependency "cucumber", ">=1.3.2"
   s.add_runtime_dependency "vagrant-zz-multiprovider-snap", ">=0.0.3"
+  s.add_runtime_dependency "to_regexp", ">=0.2.1"
 
   s.files         = files
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
