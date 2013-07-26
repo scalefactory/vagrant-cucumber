@@ -22,7 +22,7 @@ and with the following workflow in mind:
 Requirements
 ------------
 
-The plugin requires cucumber and vagrant-zz-multiprovider-snap gems, but will
+The plugin requires cucumber and vagrant-multiprovider-snap gems, but will
 install these itself if required.
 
 Vagrant Cucumber currently works only with the current Vagrant providers:
@@ -43,7 +43,7 @@ vagrant plugin install vagrant-cucumber
 ```
 
 As well as the vagrant-cucumber plugin, this will also install the
-vagrant-zz-multiprovider-snap plugin if you don't already have it.
+vagrant-multiprovider-snap plugin if you don't already have it.
 
 vagrant-cucumber will also install a version of cucumber >= 1.3.2 under the
 Ruby environment provided by Vagrant.

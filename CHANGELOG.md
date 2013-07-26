@@ -1,3 +1,7 @@
+## 0.0.3 (July 26, 2013)
+
+ * Update dependencies for vagrant-multiprovider-snap
+
 ## 0.0.2 (July 4, 2013)
 
  * Clarify license position

@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   end
   
   s.add_runtime_dependency "cucumber", ">=1.3.2"
-  s.add_runtime_dependency "vagrant-zz-multiprovider-snap", ">=0.0.3"
+  s.add_runtime_dependency "vagrant-multiprovider-snap", ">=0.0.4"
   s.add_runtime_dependency "to_regexp", ">=0.2.1"
 
   s.files         = files
