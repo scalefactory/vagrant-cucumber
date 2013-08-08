@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/scalefactory/vagrant-cucumber"
   s.summary     = %q{Cucumber support for Vagrant}
   s.description = %q{This plugin makes it possible for Cucumber to interact with Vagrant}
+  s.license     = 'MIT'
 
   s.rubyforge_project = "vagrant-cucumber"
 
