@@ -1,3 +1,12 @@
+## 0.0.4 (August 8, 2013)
+
+ * Added missing license detail to Gem spec
+ * Improve use of Given/When/Then in examples as per idiomatic Cucumber usage
+ * Refactor to get shell runner helper into the glue and out of the step definitions
+ * Added details on how to contribute to the project
+
+ With thanks to Matt Wynne (@mattwynne) for feedback
+
 ## 0.0.3 (July 26, 2013)
 
  * Update dependencies for vagrant-multiprovider-snap
