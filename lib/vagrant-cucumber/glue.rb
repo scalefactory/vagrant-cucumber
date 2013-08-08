@@ -88,6 +88,54 @@ module VagrantPlugins
                     end
                 end
 
+
+                attr_reader :last_shell_command_status
+                attr_reader :last_shell_command_output
+
+                def execute_on_vm ( command, machine, opts = {} )
+
+                    @last_shell_command_output = {
+                        :stdout => '',
+                        :stderr => '',
+                    }
+
+                    @last_shell_command_status = nil
+
+                    machine.communicate.tap do |comm|
+
+                        @last_shell_command_status = comm.execute(
+                            command, {
+                                :error_check => false,
+                                :sudo        => opts[:as_root]
+                            }
+                        ) do |type,data|
+
+                            if @vagrant_cucumber_debug
+                                puts "[:#{type}] #{data.chomp}"
+                            end
+
+                            @last_shell_command_output[type] += data
+
+                        end
+
+                    end
+
+                    if opts[:expect_nonzero]
+
+                        if @last_shell_command_status != 0
+                            raise "Expected command to return non-zero, got #{@last_shell_command_status}"
+                        end
+
+                    elsif opts.has_key?(:expect)
+
+                        if @last_shell_command_status != opts[:expect]
+                            raise "Expected command to return #{opts[:expect]}, got #{@last_shell_command_status}"
+                        end
+
+                    end
+
+                end
+
             end
 
 

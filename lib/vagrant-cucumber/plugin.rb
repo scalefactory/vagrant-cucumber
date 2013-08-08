@@ -8,6 +8,8 @@ module VagrantPlugins
     module Cucumber 
         class Plugin < Vagrant.plugin("2")
 
+            Vagrant.require_plugin("vagrant-multiprovider-snap")
+
             name "Cucumber"
 
             description <<-DESC

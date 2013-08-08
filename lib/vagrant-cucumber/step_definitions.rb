@@ -19,58 +19,9 @@ When /^I roll back the VM called "([^"]*)"$/ do |vmname|
 
 end
 
-def run_shell_command ( command, opts = {} ) 
-
-    machine = opts[:machine] || vagrant_glue.get_last_vm
-
-    @last_shell_command_output = {
-        :stdout => '',
-        :stderr => '',
-    }
-
-    @last_shell_command_status = nil
-
-    machine.communicate.tap do |comm|
-
-        @last_shell_command_status = comm.execute( 
-            command, { 
-                :error_check => false,
-                :sudo        => opts[:as_root]
-            } 
-        ) do |type,data|
-
-            if @vagrant_cucumber_debug
-                puts "[:#{type}] #{data.chomp}"
-            end
-
-            @last_shell_command_output[type] += data
-
-        end 
-
-    end
-
-    if opts[:expect_nonzero]
-
-        if @last_shell_command_status != 0
-            raise "Expected command to return non-zero, got #{@last_shell_command_status}"
-        end
-
-    elsif opts.has_key?(:expect)
-
-        if @last_shell_command_status != opts[:expect]
-            raise "Expected command to return #{opts[:expect]}, got #{@last_shell_command_status}"
-        end
-
-    end
-
-
-
-end
-
 Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})(?:|, it) should (succeed|fail)$/ do |command,as_root,vmre,condition|
 
     options = {
-        :machine          => vagrant_glue.identified_vm(vmre),
         :as_root          => ( as_root == ' as root' ),
         :expect_non_zero  => ( condition == 'fail' ),
     } 
@@ -79,16 +30,18 @@ Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})(?:|, it) s
         options[:expect] = 0
     end
 
-    run_shell_command( command, options )
+    vagrant_glue.execute_on_vm( command, vagrant_glue.identified_vm(vmre), options )
 
 end
 
 Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})$/ do |command,as_root,vmre|
 
-    run_shell_command( command, {
+    options = {
         :machine          => vagrant_glue.identified_vm(vmre),
         :as_root          => ( as_root == ' as root' ),
-    } )
+    }
+
+    vagrant_glue.execute_on_vm( command, vagrant_glue.identified_vm(vmre), options )
 
 end
 
@@ -97,11 +50,11 @@ Then /^the (.+) of that shell command should(| not) match (\/.+\/)$/ do |stream,
 
     stream.downcase!
 
-    unless @last_shell_command_output.has_key?( stream.to_sym )
-        raise "@last_shell_command_output structure has no #{stream}"
+    unless vagrant_glue.last_shell_command_output.has_key?( stream.to_sym )
+        raise "vagrant_glue.last_shell_command_output structure has no #{stream}"
     end
 
-    re_result = ( @last_shell_command_output[stream.to_sym] =~ re.to_regexp )
+    re_result = ( vagrant_glue.last_shell_command_output[stream.to_sym] =~ re.to_regexp )
     re_matched = !re_result.nil?
 
     should_match = condition != ' not'
