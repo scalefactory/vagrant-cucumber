@@ -7,7 +7,7 @@ Given /^there is a running VM called "([^"]*)"$/ do |vmname|
     machine.action(:up)
 
     unless machine.provider.driver.has_snapshot?
-        machine.action(:snapshot_take)
+        vagrant_glue.vagrant_env.cli('snap', 'take', vmname )
     end
 
 end
