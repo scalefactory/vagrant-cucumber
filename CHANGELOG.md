@@ -1,3 +1,7 @@
+## 0.0.5 (August 9, 2013)
+
+ * Solve problem with missing i18n translations
+
 ## 0.0.4 (August 8, 2013)
 
  * Added missing license detail to Gem spec
