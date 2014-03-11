@@ -1,3 +1,7 @@
+## 0.0.6 (March 11, 2014)
+
+ * Support Vagrant 1.5 approach to plugin loading
+
 ## 0.0.5 (August 9, 2013)
 
  * Solve problem with missing i18n translations

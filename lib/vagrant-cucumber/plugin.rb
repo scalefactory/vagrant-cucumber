@@ -8,7 +8,7 @@ module VagrantPlugins
     module Cucumber 
         class Plugin < Vagrant.plugin("2")
 
-            Vagrant.require_plugin("vagrant-multiprovider-snap")
+            require 'vagrant-multiprovider-snap'
 
             name "Cucumber"
 
