@@ -9,6 +9,9 @@ module VagrantPlugins
 
                 require 'vagrant-cucumber/cucumber/formatter/pretty'
                 require 'vagrant-cucumber/cucumber/formatter/html'
+                require 'vagrant-cucumber/glue'
+
+                VagrantPlugins::Cucumber::Glue::VagrantGlue.set_environment(@env)
 
                 failure = ::Cucumber::Cli::Main.execute(@argv)    
 

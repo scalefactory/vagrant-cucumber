@@ -1,3 +1,7 @@
+## 0.0.7 (April 28, 2014)
+
+ * Solves an edge case in environment creation
+
 ## 0.0.6 (March 11, 2014)
 
  * Support Vagrant 1.5 approach to plugin loading

@@ -19,12 +19,15 @@ module VagrantPlugins
 
             class VagrantGlue
 
+                @@vagrant_env = nil
+
+                def self.set_environment(env)
+                    @@vagrant_env = env
+                end
+
                 def initialize
 
-                    @vagrant_env = Vagrant::Environment.new(
-                        :ui_class => Vagrant::UI::Basic
-                    )
-
+                    @vagrant_env = @@vagrant_env or raise "The vagrant_env hasn't been set"
                     @last_machine_mentioned = nil
 
                 end
