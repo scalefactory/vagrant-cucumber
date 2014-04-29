@@ -1,3 +1,7 @@
+## 0.0.8 (April 29, 2014)
+
+ * Fixed a bug in table formatting
+
 ## 0.0.7 (April 28, 2014)
 
  * Solves an edge case in environment creation
