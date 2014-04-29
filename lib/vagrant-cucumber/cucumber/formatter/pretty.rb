@@ -13,7 +13,7 @@ module VagrantPlugins
 
                 def initialize(*args)
                     super
-                    @delayed_messages = undef
+                    @delayed_messages = nil
                 end
 
                 # print_messages is only used to output the delayed_messages
