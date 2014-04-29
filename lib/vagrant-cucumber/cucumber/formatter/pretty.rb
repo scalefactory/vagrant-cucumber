@@ -13,13 +13,16 @@ module VagrantPlugins
 
                 def initialize(*args)
                     super
-                    @delayed_messages = nil
+                    @delayed_messages = undef
                 end
 
                 # print_messages is only used to output the delayed_messages
                 #  and fails because of the above hack, so make it a noop
 
                 def print_messages
+                end
+
+                def print_table_row_messages
                 end
 
             end
