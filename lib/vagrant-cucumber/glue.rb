@@ -162,7 +162,8 @@ module VagrantPlugins
 
                     @vagrant_env.active_machines.each do |name,provider|
 
-                        etc_hosts = "127.0.0.1\tlocalhost localhost.localdomain\n"
+                        etc_hosts = "### Host entries set for Vagrant Cucumber\n"
+                        etc_hosts += "127.0.0.1\tlocalhost localhost.localdomain\n"
                         hosts_array.each do |host|
                             etc_hosts += "#{host[:ip].to_s}\t#{host[:name]}\n"
                         end
