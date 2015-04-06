@@ -30,6 +30,8 @@ module VagrantPlugins
                     @vagrant_env = @@vagrant_env or raise "The vagrant_env hasn't been set"
                     @last_machine_mentioned = nil
 
+                    hack_etc_hosts
+
                 end
 
                 def self.instance
@@ -134,6 +136,39 @@ module VagrantPlugins
                         if @last_shell_command_status != opts[:expect]
                             raise "Expected command to return #{opts[:expect]}, got #{@last_shell_command_status}"
                         end
+
+                    end
+
+                    @last_shell_command_output
+
+                end
+
+                def hack_etc_hosts
+
+                    hosts_array = []
+
+                    @vagrant_env.active_machines.each do |name,provider|
+
+                        host_metadata = {}
+                        machine = @vagrant_env.machine(name, provider)
+                        ip = execute_on_vm('facter ipaddress_eth1', machine)
+
+                        host_metadata[:name] = name
+                        host_metadata[:ip] = ip[:stdout].chomp
+
+                        hosts_array << host_metadata
+
+                    end
+
+                    @vagrant_env.active_machines.each do |name,provider|
+
+                        etc_hosts = "127.0.0.1\tlocalhost localhost.localdomain\n"
+                        hosts_array.each do |host|
+                            etc_hosts += "#{host[:ip].to_s}\t#{host[:name]}\n"
+                        end
+                        machine = @vagrant_env.machine(name, provider)
+
+                        execute_on_vm("echo \"#{etc_hosts.chomp}\" > /etc/hosts", machine, {:as_root => true})
 
                     end
 
