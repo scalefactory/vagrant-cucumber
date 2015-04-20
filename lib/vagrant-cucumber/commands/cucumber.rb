@@ -7,13 +7,14 @@ module VagrantPlugins
                 require 'cucumber/rspec/disable_option_parser'
                 require 'cucumber/cli/main'
 
+                require 'vagrant-cucumber/cucumber/term/ansicolor'
                 require 'vagrant-cucumber/cucumber/formatter/pretty'
                 require 'vagrant-cucumber/cucumber/formatter/html'
                 require 'vagrant-cucumber/glue'
 
                 VagrantPlugins::Cucumber::Glue::VagrantGlue.set_environment(@env)
 
-                failure = ::Cucumber::Cli::Main.execute(@argv)    
+                failure = ::Cucumber::Cli::Main.execute(@argv)
 
             end
 
