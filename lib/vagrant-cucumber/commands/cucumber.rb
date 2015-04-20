@@ -1,13 +1,25 @@
+FORCE_COLOUR_ENV_VARS = [
+    'VAGRANT_CUCUMBER_FORCE_COLOR',
+    'VAGRANT_CUCUMBER_FORCE_COLOUR',
+]
+
 module VagrantPlugins
     module Cucumber
         class CucumberCommand < Vagrant.plugin(2, :command)
+
+            FORCE_COLOUR_ENV_VARS.each { |k|
+                if ENV.has_key?(k)
+                    require 'cucumber/term/ansicolor'
+                    ::Cucumber::Term::ANSIColor.coloring = true
+                    break
+                end
+            }
 
             def execute
 
                 require 'cucumber/rspec/disable_option_parser'
                 require 'cucumber/cli/main'
 
-                require 'vagrant-cucumber/cucumber/term/ansicolor'
                 require 'vagrant-cucumber/cucumber/formatter/pretty'
                 require 'vagrant-cucumber/cucumber/formatter/html'
                 require 'vagrant-cucumber/glue'
