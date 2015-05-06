@@ -1,3 +1,7 @@
+## 0.0.10 (May 6, 2015)
+
+ * Fixed gemspec to constrain cucumber version
+
 ## 0.0.9 (May 6, 2015)
 
  * Fixes to ANSI escape code handling
