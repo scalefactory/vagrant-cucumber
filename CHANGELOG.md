@@ -1,3 +1,8 @@
+## 0.0.9 (May 6, 2015)
+
+ * Fixes to ANSI escape code handling
+ * Force cucumber gem version to pre-2.x
+
 ## 0.0.8 (April 29, 2014)
 
  * Fixed a bug in table formatting
