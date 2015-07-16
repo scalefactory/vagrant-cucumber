@@ -70,22 +70,22 @@ Then /^the (.+) of that shell command should(| not) match (\/.+\/)$/ do |stream,
 end
 
 Before('@norollback') do |scenario|
+  if @vagrant_cucumber_debug
     puts "Saw @norollback tag:"
     puts "  * Won't roll back snapshot at end of scenario"
     puts "  * Will roll back explicit snapshots in the scenario"
+  end
 end
 
 
 
 After('~@norollback') do |scenario|
-
     puts "Rolling back VM states"
     vagrant_glue.vagrant_env.cli('snap', 'rollback' )
-
 end
 
 After('@norollback') do |scenario|
-    puts "Saw @norollback tag - not rolling back"
+    puts "Saw @norollback tag - not rolling back" if @vagrant_cucumber_debug
 end
 
 Before('@vagrant-cucumber-debug') do |scenario|
