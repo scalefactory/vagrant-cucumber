@@ -1,13 +1,9 @@
 require 'cucumber/formatter/pretty'
 
 module VagrantPlugins
-
     module Cucumber
-
         module Formatter
-
             class Pretty < ::Cucumber::Formatter::Pretty
-
                 # Use the Pretty formatter, but disable use of
                 #  delayed messages (ie. output each line at once)
 
@@ -24,13 +20,7 @@ module VagrantPlugins
 
                 def print_table_row_messages
                 end
-
             end
-
         end
-
     end
-
 end
-
-
