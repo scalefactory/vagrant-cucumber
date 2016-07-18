@@ -22,6 +22,8 @@ and with the following workflow in mind:
 Requirements
 ------------
 
+Since `0.1.x` this plugin requires a minimum Vagrant version of `1.8.4`.
+
 The plugin requires the `cucumber` gem, but will install this itself if
 required.
 
