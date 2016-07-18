@@ -1,3 +1,14 @@
+## 0.1.0 (Jul 18, 2016)
+
+ * Removed `vagrant-multiprovider-snap` dependency. Vagrant now has all
+   required features.
+ * Updates to various syntax in the code.
+   * "New" style Ruby hashes (no hash rockets).
+   * Removal of some deprecated methods (`Hash#has_key?`, etc)
+ * Quick sweep with `rubocop` to fix some minor style issues.
+ * Fixes to `README.md`, mostly removal of references to
+   `vagrant-multiprovider-snap` with some markdown cleanups.
+
 ## 0.0.10 (May 6, 2015)
 
  * Fixed gemspec to constrain cucumber version
