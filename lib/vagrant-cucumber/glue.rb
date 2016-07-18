@@ -44,7 +44,7 @@ module VagrantPlugins
 
                     # If this machine name is not configured, blow up
                     unless @vagrant_env.machine_names.index(vmname.to_sym)
-                        raise Vagrant::Errors::VMNotFoundError, :name => vmname
+                        raise Vagrant::Errors::VMNotFoundError, name: vmname
                     end
 
                     @vagrant_env.active_machines.each do |a_name, a_provider|
@@ -61,8 +61,10 @@ module VagrantPlugins
                     end
 
                     machine_provider ||= vagrant_env.default_provider
+
                     machine = @vagrant_env.machine(
-                        machine_name, machine_provider
+                        machine_name,
+                        machine_provider
                     )
 
                     @last_machine_mentioned = vmname
@@ -75,7 +77,7 @@ module VagrantPlugins
                         when /^( on the last VM|)$/
                             get_last_vm
                         when /^ on the VM(?: called|) "([^"]+)"$/
-                            get_vm( $1 )
+                            get_vm($1)
                     end
                 end
 
@@ -84,8 +86,8 @@ module VagrantPlugins
 
                 def execute_on_vm(command, machine, opts = {})
                     @last_shell_command_output = {
-                        :stdout => '',
-                        :stderr => '',
+                        stdout: '',
+                        stderr: '',
                     }
 
                     @last_shell_command_status = nil
@@ -93,10 +95,10 @@ module VagrantPlugins
                     machine.communicate.tap do |comm|
                         @last_shell_command_status = comm.execute(
                             command, {
-                                :error_check => false,
-                                :sudo        => opts[:as_root]
+                                error_check: false,
+                                sudo:        opts[:as_root]
                             }
-                        ) do |type,data|
+                        ) do |type, data|
                             if @vagrant_cucumber_debug
                                 puts "[:#{type}] #{data.chomp}"
                             end
@@ -109,7 +111,7 @@ module VagrantPlugins
                         if @last_shell_command_status != 0
                             raise "Expected command to return non-zero, got #{@last_shell_command_status}"
                         end
-                    elsif opts.has_key?(:expect)
+                    elsif opts.key?(:expect)
                         if @last_shell_command_status != opts[:expect]
                             raise "Expected command to return #{opts[:expect]}, got #{@last_shell_command_status}"
                         end
