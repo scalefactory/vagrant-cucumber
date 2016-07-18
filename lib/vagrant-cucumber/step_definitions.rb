@@ -1,30 +1,31 @@
 require 'to_regexp'
 
 Given /^there is a running VM called "([^"]*)"$/ do |vmname|
-
-    machine = vagrant_glue.get_vm( vmname )
+    machine = vagrant_glue.get_vm(vmname)
 
     machine.action(:up)
 
     unless machine.provider.driver.has_snapshot?
-        vagrant_glue.vagrant_env.cli('snap', 'take', vmname )
+        vagrant_glue.vagrant_env.cli('snapshot', 'push', vmname)
     end
-
 end
 
 When /^I roll back the VM called "([^"]*)"$/ do |vmname|
-
     machine = vagrant_glue.get_vm( vmname )
-    vagrant_glue.vagrant_env.cli('snap', 'rollback', vmname )
-
+    vagrant_glue.vagrant_env.cli(
+        'snapshot',
+        'pop',
+        '--no-provision',
+        '--no-delete',
+        vmname,
+    )
 end
 
 Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})(?:|, it) should (succeed|fail)$/ do |command,as_root,vmre,condition|
-
     options = {
         :as_root          => ( as_root == ' as root' ),
         :expect_non_zero  => ( condition == 'fail' ),
-    } 
+    }
 
     if condition == 'succeed'
         options[:expect] = 0
@@ -78,10 +79,13 @@ end
 
 
 After('~@norollback') do |scenario|
-
     puts "Rolling back VM states"
-    vagrant_glue.vagrant_env.cli('snap', 'rollback' )
-
+    vagrant_glue.vagrant_env.cli(
+        'snapshot',
+        'pop',
+        '--no-provision',
+        '--no-delete',
+    )
 end
 
 After('@norollback') do |scenario|
