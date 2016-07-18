@@ -43,7 +43,7 @@ module VagrantPlugins
                     machine_name     = nil
 
                     # If this machine name is not configured, blow up
-                    if ! @vagrant_env.machine_names.index(vmname.to_sym)
+                    unless @vagrant_env.machine_names.index(vmname.to_sym)
                         raise Vagrant::Errors::VMNotFoundError, :name => vmname
                     end
 
@@ -54,7 +54,7 @@ module VagrantPlugins
                         end
                     end
 
-                    if !machine_name
+                    unless machine_name
                         raise "The VM '#{vmname}' is configured in the Vagrantfile "+
                             "but has not been started.  Run 'vagrant up #{vmname}' and "+
                             "specify a provider if necessary."
