@@ -19,7 +19,6 @@ unless ENV.has_key?('VAGRANT_INSTALLER_EMBEDDED_DIR')
 end
 
 group :development do
-
     # We depend on Vagrant for development, but we don't add it as a
     # gem dependency because we expect to be installed within the
     # Vagrant environment itself using `vagrant plugin`.
@@ -36,9 +35,9 @@ group :development do
 
         unless File.symlink?( File.join( fusion_path, 'rgloader' ) )
             $stderr.puts "Linking local 'rgloader' file to embedded installer"
-            FileUtils.ln_s( 
+            FileUtils.ln_s(
                 File.join( ENV["VAGRANT_INSTALLER_EMBEDDED_DIR"], 'rgloader' ), 
-                File.join( fusion_path, 'rgloader' ) 
+                File.join( fusion_path, 'rgloader' )
             )
         end
 
@@ -49,16 +48,12 @@ group :development do
                 File.join( fusion_path, 'license-vagrant-vmware-fusion.lic' )
             )
         end
-
     end
-
 end
 
 group :plugins do
     gem "vagrant-vmware-fusion"
     gem "vagrant-cucumber", path: "."
-    gem "vagrant-multiprovider-snap"
     gem "to_regexp"
     gem "cucumber"
 end
-
