@@ -1,4 +1,4 @@
-## WIP
+## 0.1.0 (21 July, 2016)
 
  * Removed `vagrant-multiprovider-snap` dependency. Vagrant now has all
    required features.
