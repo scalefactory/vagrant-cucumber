@@ -1,25 +1,39 @@
 require 'to_regexp'
 
+def push_snapshot(vmname)
+    vagrant_glue.vagrant_env.cli('snapshot', 'push', vmname)
+rescue Vagrant::Errors::EnvironmentLockedError
+    sleep 0.2
+    retry
+end
+
+def pop_snapshot(vmname = nil)
+    args = [
+        'snapshot',
+        'pop',
+        '--no-provision',
+        '--no-delete',
+    ]
+    args << vmname unless vmname.nil?
+
+    vagrant_glue.vagrant_env.cli(*args)
+rescue Vagrant::Errors::EnvironmentLockedError
+    sleep 0.2
+    retry
+end
+
 Given /^there is a running VM called "([^"]*)"$/ do |vmname|
     machine = vagrant_glue.get_vm(vmname)
 
     machine.action(:up)
 
-    if machine.provider.capability(:snapshot_list).empty?
-        vagrant_glue.vagrant_env.cli('snapshot', 'push', vmname)
-    end
+    push_snapshot(vmname) if machine.provider.capability(:snapshot_list).empty?
 end
 
 When /^I roll back the VM called "([^"]*)"$/ do |vmname|
     machine = vagrant_glue.get_vm(vmname)
 
-    vagrant_glue.vagrant_env.cli(
-        'snapshot',
-        'pop',
-        '--no-provision',
-        '--no-delete',
-        vmname,
-    )
+    pop_snapshot(vmname)
 end
 
 Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})(?:|, it) should (succeed|fail)$/ do |command, as_root, vmre, condition|
@@ -82,12 +96,7 @@ end
 
 After('~@norollback') do |_scenario|
     puts 'Rolling back VM states'
-    vagrant_glue.vagrant_env.cli(
-        'snapshot',
-        'pop',
-        '--no-provision',
-        '--no-delete',
-    )
+    pop_snapshot
 end
 
 After('@norollback') do |_scenario|
