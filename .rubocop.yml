@@ -1,0 +1,26 @@
+Style/IndentationWidth:
+    Width: 4
+
+Metrics/LineLength:
+    Enabled: false
+
+Metrics/MethodLength:
+    Enabled: false
+
+Style/Documentation:
+    Enabled: false
+
+Style/AccessorMethodName:
+    Enabled: false
+
+Style/ClassVars:
+    Enabled: false
+
+Metrics/AbcSize:
+    Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+    Enabled: false
+
+Style/FileName:
+    Enabled: false

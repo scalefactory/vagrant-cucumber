@@ -12,7 +12,7 @@ def pop_snapshot(vmname = nil)
         'snapshot',
         'pop',
         '--no-provision',
-        '--no-delete',
+        '--no-delete'
     ]
     args << vmname unless vmname.nil?
 
@@ -31,7 +31,7 @@ Given /^there is a running VM called "([^"]*)"$/ do |vmname|
 end
 
 When /^I roll back the VM called "([^"]*)"$/ do |vmname|
-    machine = vagrant_glue.get_vm(vmname)
+    _machine = vagrant_glue.get_vm(vmname)
 
     pop_snapshot(vmname)
 end
@@ -39,7 +39,7 @@ end
 Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})(?:|, it) should (succeed|fail)$/ do |command, as_root, vmre, condition|
     options = {
         as_root:         (as_root == ' as root'),
-        expect_non_zero: (condition == 'fail'),
+        expect_non_zero: (condition == 'fail')
     }
 
     options[:expect] = 0 if condition == 'succeed'
@@ -54,7 +54,7 @@ end
 Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})$/ do |command, as_root, vmre|
     options = {
         machine: vagrant_glue.identified_vm(vmre),
-        as_root: (as_root == ' as root'),
+        as_root: (as_root == ' as root')
     }
 
     vagrant_glue.execute_on_vm(
@@ -64,7 +64,7 @@ Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})$/ do |comm
     )
 end
 
-Then /^the (.+) of that shell command should(| not) match (\/.+\/)$/ do |stream, condition, re|
+Then %r{/^the (.+) of that shell command should(| not) match (\/.+\/)$/} do |stream, condition, re|
     stream.downcase!
 
     unless vagrant_glue.last_shell_command_output.key?(stream.to_sym)
