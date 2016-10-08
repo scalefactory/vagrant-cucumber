@@ -1,19 +1,43 @@
 require 'to_regexp'
 
 def push_snapshot(vmname)
-    vagrant_glue.vagrant_env.cli('snapshot', 'push', vmname)
+    case machine_provider(vmname)
+    when :libvirt
+        require 'sahara/session/factory'
+        ses = Sahara::Session::Factory.create(vagrant_glue.get_vm(vmname))
+        unless ses.is_snapshot_mode_on?
+            vagrant_glue.vagrant_env.cli('sandbox', 'on', vmname)
+            vagrant_glue.vagrant_env.cli('sandbox', 'commit', vmname)
+        end
+    when :no_machines
+        return
+    else
+        machine = vagrant_glue.get_vm(vmname)
+        vagrant_glue.vagrant_env.cli('snapshot', 'push', vmname) if machine.provider.capability(:snapshot_list).empty?
+    end
 rescue Vagrant::Errors::EnvironmentLockedError
     sleep 0.2
     retry
+rescue LoadError
+    raise 'Please install the `sahara` vagrant plugin.'
+end
+
+def machine_provider(vmname)
+    if vmname.nil?
+        return :no_machines if vagrant_glue.vagrant_env.active_machines.empty?
+        vagrant_glue.vagrant_env.active_machines[0][1]
+    else
+        vagrant_glue.get_vm(vmname).provider_name
+    end
 end
 
 def pop_snapshot(vmname = nil)
-    args = [
-        'snapshot',
-        'pop',
-        '--no-provision',
-        '--no-delete'
-    ]
+    args =  case machine_provider(vmname)
+            when :libvirt
+                %w(sandbox rollback)
+            else
+                %w(snapshot pop --no-provision --no-delete)
+            end
     args << vmname unless vmname.nil?
 
     vagrant_glue.vagrant_env.cli(*args)
@@ -24,10 +48,8 @@ end
 
 Given /^there is a running VM called "([^"]*)"$/ do |vmname|
     machine = vagrant_glue.get_vm(vmname)
-
     machine.action(:up)
-
-    push_snapshot(vmname) if machine.provider.capability(:snapshot_list).empty?
+    push_snapshot(vmname)
 end
 
 When /^I roll back the VM called "([^"]*)"$/ do |vmname|
