@@ -1,19 +1,52 @@
 require 'to_regexp'
 
 def push_snapshot(vmname)
-    vagrant_glue.vagrant_env.cli('snapshot', 'push', vmname)
+    case machine_provider(vmname)
+    when :libvirt
+        vagrant_glue.vagrant_env.cli('sandbox', 'on', vmname)
+        vagrant_glue.vagrant_env.cli('sandbox', 'commit', vmname)
+    when :no_machines
+        return
+    else
+        vagrant_glue.vagrant_env.cli('snapshot', 'push', vmname)
+    end
 rescue Vagrant::Errors::EnvironmentLockedError
     sleep 0.2
     retry
+rescue LoadError
+    raise 'Please install the `sahara` vagrant plugin.'
+end
+
+def snapshots_enabled?(vmname)
+    case machine_provider(vmname)
+    when :libvirt
+        require 'sahara/session/factory'
+        ses = Sahara::Session::Factory.create(vagrant_glue.get_vm(vmname))
+        ses.is_snapshot_mode_on?
+    when :no_machines
+        return false
+    else
+        machine = vagrant_glue.get_vm(vmname)
+        !machine.provider.capability(:snapshot_list).empty?
+    end
+end
+
+def machine_provider(vmname)
+    if vmname.nil?
+        return :no_machines if vagrant_glue.vagrant_env.active_machines.empty?
+        vagrant_glue.vagrant_env.active_machines[0][1]
+    else
+        vagrant_glue.get_vm(vmname).provider_name
+    end
 end
 
 def pop_snapshot(vmname = nil)
-    args = [
-        'snapshot',
-        'pop',
-        '--no-provision',
-        '--no-delete',
-    ]
+    args =  case machine_provider(vmname)
+            when :libvirt
+                %w(sandbox rollback)
+            else
+                %w(snapshot pop --no-provision --no-delete)
+            end
     args << vmname unless vmname.nil?
 
     vagrant_glue.vagrant_env.cli(*args)
@@ -24,14 +57,12 @@ end
 
 Given /^there is a running VM called "([^"]*)"$/ do |vmname|
     machine = vagrant_glue.get_vm(vmname)
-
     machine.action(:up)
-
-    push_snapshot(vmname) if machine.provider.capability(:snapshot_list).empty?
+    push_snapshot(vmname) unless snapshots_enabled?(vmname)
 end
 
 When /^I roll back the VM called "([^"]*)"$/ do |vmname|
-    machine = vagrant_glue.get_vm(vmname)
+    _machine = vagrant_glue.get_vm(vmname)
 
     pop_snapshot(vmname)
 end
@@ -39,7 +70,7 @@ end
 Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})(?:|, it) should (succeed|fail)$/ do |command, as_root, vmre, condition|
     options = {
         as_root:         (as_root == ' as root'),
-        expect_non_zero: (condition == 'fail'),
+        expect_non_zero: (condition == 'fail')
     }
 
     options[:expect] = 0 if condition == 'succeed'
@@ -54,7 +85,7 @@ end
 Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})$/ do |command, as_root, vmre|
     options = {
         machine: vagrant_glue.identified_vm(vmre),
-        as_root: (as_root == ' as root'),
+        as_root: (as_root == ' as root')
     }
 
     vagrant_glue.execute_on_vm(
@@ -64,7 +95,7 @@ Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})$/ do |comm
     )
 end
 
-Then /^the (.+) of that shell command should(| not) match (\/.+\/)$/ do |stream, condition, re|
+Then %r{/^the (.+) of that shell command should(| not) match (\/.+\/)$/} do |stream, condition, re|
     stream.downcase!
 
     unless vagrant_glue.last_shell_command_output.key?(stream.to_sym)

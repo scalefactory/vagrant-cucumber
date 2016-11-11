@@ -22,17 +22,15 @@ module VagrantPlugins
                 end
 
                 def initialize
-                    @vagrant_env = @@vagrant_env or raise "The vagrant_env hasn't been set"
+                    (@vagrant_env = @@vagrant_env) || raise("The vagrant_env hasn't been set")
                     @last_machine_mentioned = nil
                 end
 
                 def self.instance
-                    return @@instance ||= VagrantGlue.new
+                    @@instance ||= VagrantGlue.new
                 end
 
-                def vagrant_env
-                    @vagrant_env
-                end
+                attr_reader :vagrant_env
 
                 def get_last_vm
                     get_vm(@last_machine_mentioned)
@@ -55,9 +53,9 @@ module VagrantPlugins
                     end
 
                     unless machine_name
-                        raise "The VM '#{vmname}' is configured in the Vagrantfile "+
-                            "but has not been started.  Run 'vagrant up #{vmname}' and "+
-                            "specify a provider if necessary."
+                        raise "The VM '#{vmname}' is configured in the Vagrantfile "\
+                              "but has not been started.  Run 'vagrant up #{vmname}' and "\
+                              'specify a provider if necessary.'
                     end
 
                     machine_provider ||= vagrant_env.default_provider
@@ -74,10 +72,10 @@ module VagrantPlugins
 
                 def identified_vm(str)
                     case str
-                        when /^( on the last VM|)$/
-                            get_last_vm
-                        when /^ on the VM(?: called|) "([^"]+)"$/
-                            get_vm($1)
+                    when /^( on the last VM|)$/
+                        get_last_vm
+                    when /^ on the VM(?: called|) "([^"]+)"$/
+                        get_vm(Regexp.last_match(1))
                     end
                 end
 
@@ -87,17 +85,15 @@ module VagrantPlugins
                 def execute_on_vm(command, machine, opts = {})
                     @last_shell_command_output = {
                         stdout: '',
-                        stderr: '',
+                        stderr: ''
                     }
 
                     @last_shell_command_status = nil
 
                     machine.communicate.tap do |comm|
                         @last_shell_command_status = comm.execute(
-                            command, {
-                                error_check: false,
-                                sudo:        opts[:as_root]
-                            }
+                            command, error_check: false,
+                                     sudo:        opts[:as_root]
                         ) do |type, data|
                             if @vagrant_cucumber_debug
                                 puts "[:#{type}] #{data.chomp}"

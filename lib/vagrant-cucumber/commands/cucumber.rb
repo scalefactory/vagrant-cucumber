@@ -1,17 +1,16 @@
-FORCE_COLOUR_ENV_VARS = [
-    'VAGRANT_CUCUMBER_FORCE_COLOR',
-    'VAGRANT_CUCUMBER_FORCE_COLOUR',
-]
+FORCE_COLOUR_ENV_VARS = %w(
+    VAGRANT_CUCUMBER_FORCE_COLOR
+    VAGRANT_CUCUMBER_FORCE_COLOUR
+).freeze
 
 module VagrantPlugins
     module Cucumber
         class CucumberCommand < Vagrant.plugin(2, :command)
             FORCE_COLOUR_ENV_VARS.each do |k|
-                if ENV.key?(k)
-                    require 'cucumber/term/ansicolor'
-                    ::Cucumber::Term::ANSIColor.coloring = true
-                    break
-                end
+                next unless ENV.key?(k)
+                require 'cucumber/term/ansicolor'
+                ::Cucumber::Term::ANSIColor.coloring = true
+                break
             end
 
             def execute
@@ -24,7 +23,7 @@ module VagrantPlugins
 
                 VagrantPlugins::Cucumber::Glue::VagrantGlue.set_environment(@env)
 
-                failure = ::Cucumber::Cli::Main.execute(@argv)
+                _ = ::Cucumber::Cli::Main.execute(@argv)
             end
         end
     end

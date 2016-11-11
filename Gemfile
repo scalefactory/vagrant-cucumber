@@ -34,18 +34,18 @@ group :development do
         fusion_path = fusion_gem.gem_dir
         fusion_license_path = File.join(
             fusion_path,
-            'license-vagrant-vmware-fusion.lic',
+            'license-vagrant-vmware-fusion.lic'
         )
         fusion_license_vagrantd_path = File.join(
             ENV['HOME'],
             '.vagrant.d',
-            'license-vagrant-vmware-fusion.lic',
+            'license-vagrant-vmware-fusion.lic'
         )
 
         rgloader_local_path    = File.join(fusion_path, 'rgloader')
         rgloader_embedded_path = File.join(
             ENV['VAGRANT_INSTALLER_EMBEDDED_DIR'],
-            'rgloader',
+            'rgloader'
         )
 
         unless File.symlink?(rgloader_local_path)

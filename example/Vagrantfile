@@ -1,11 +1,11 @@
 Vagrant.configure('2') do |config|
-    config.vm.box = "ubuntu/precise64"
+    config.vm.box = 'ubuntu/precise64'
 
     config.vm.provider :virtualbox
 
-    config.vm.provider :vmware_fusion do |fusion, override|
+    config.vm.provider :vmware_fusion do |_fusion, override|
         # Standard Ubuntu image doesn't exist for VMWare
-        override.vm.box = "hashicorp/precise64"
+        override.vm.box = 'hashicorp/precise64'
     end
 
     config.vm.define :vm1 do |vm1|
@@ -15,5 +15,4 @@ Vagrant.configure('2') do |config|
     config.vm.define :vm2 do |vm2|
         vm2.vm.hostname = 'vm2'
     end
-
 end
