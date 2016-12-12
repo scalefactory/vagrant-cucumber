@@ -43,7 +43,7 @@ install this plugin is via the published gem:
 vagrant plugin install vagrant-cucumber
 ```
 
-`vagrant-cucumber` will install a version of cucumber >= 1.3.2 under the
+`vagrant-cucumber` will install a version of cucumber >= 2.4.0 under the
 Ruby environment provided by Vagrant.
 
 

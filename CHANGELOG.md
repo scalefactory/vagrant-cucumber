@@ -1,3 +1,8 @@
+## 1.0.0 (December, 2016)
+ * Upgrade Cucumber to 2.x release. No longer requires native extensions for Gherkin,
+   thus allowing installation on Vagrant 1.9.1
+ * Support for libvirt using Sahara plugin
+
 ## 0.1.1 (26 July, 2016)
 
  * Retry snapshot operations on lock failure.
