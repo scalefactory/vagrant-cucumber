@@ -1,4 +1,10 @@
-## 1.0.0 (December, 2016)
+## 1.0.1 (13 December, 2016)
+ * FIX: Restore options in pretty formatter.
+
+Note: If you would like immediate standard output from commands, you will need to
+use "Kernel.puts" or "STDOUT.puts" in Cucumber 2+.
+
+## 1.0.0 (12 December, 2016)
  * Upgrade Cucumber to 2.x release. No longer requires native extensions for Gherkin,
    thus allowing installation on Vagrant 1.9.1
  * Support for libvirt using Sahara plugin

@@ -7,7 +7,7 @@ module VagrantPlugins
                 # Use the Pretty formatter, but disable use of
                 #  delayed messages (ie. output each line at once)
 
-                def initialize(runtime, path_or_io = STDOUT, options = {})
+                def initialize(runtime, path_or_io, options)
                     super
                     @delayed_messages = nil
                 end
