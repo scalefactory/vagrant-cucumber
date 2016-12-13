@@ -1,0 +1,8 @@
+deploy:
+  provider: rubygems
+  api_key:
+    secure: SKDiZG3npN7vGCXlJxyS6JTJO4+nfJOEfp4fOCAKSkxUmMUjmNpvkoJR0tmvqnD2VWm5linnDsENASoQgwt3dWhT6jpeTBDzKq6gj8+XTHguCe9enqvcxZZ3oKN4lUf94gdFZAIL3dg1HLwcRGPeMFf0DWCi0hNl1VIZHzjY+hg=
+  gem: vagrant-cucumber
+  on:
+    tags: true
+    repo: scalefactory/vagrant-cucumber
