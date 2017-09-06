@@ -95,7 +95,7 @@ Then /^(?:running|I run) the shell command `(.*)`(| as root)(#{VMRE})$/ do |comm
     )
 end
 
-Then %r{/^the (.+) of that shell command should(| not) match (\/.+\/)$/} do |stream, condition, re|
+Then /^the (.+) of that shell command should(| not) match (\/.+\/)$/ do |stream, condition, re|
     stream.downcase!
 
     unless vagrant_glue.last_shell_command_output.key?(stream.to_sym)
