@@ -5,6 +5,8 @@ def push_snapshot(vmname)
     when :libvirt
         vagrant_glue.vagrant_env.cli('sandbox', 'on', vmname)
         vagrant_glue.vagrant_env.cli('sandbox', 'commit', vmname)
+    when :aws
+        return
     when :no_machines
         return
     else
@@ -23,8 +25,10 @@ def snapshots_enabled?(vmname)
         require 'sahara/session/factory'
         ses = Sahara::Session::Factory.create(vagrant_glue.get_vm(vmname))
         ses.is_snapshot_mode_on?
+    when :aws
+        false
     when :no_machines
-        return false
+        false
     else
         machine = vagrant_glue.get_vm(vmname)
         !machine.provider.capability(:snapshot_list).empty?
@@ -44,6 +48,8 @@ def pop_snapshot(vmname = nil)
     args =  case machine_provider(vmname)
             when :libvirt
                 %w(sandbox rollback)
+            when :aws
+                return
             else
                 %w(snapshot pop --no-provision --no-delete)
             end
