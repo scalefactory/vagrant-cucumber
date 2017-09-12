@@ -6,3 +6,4 @@ pkg/*
 .vagrant
 .ruby-version
 *~
+vendor/bundle

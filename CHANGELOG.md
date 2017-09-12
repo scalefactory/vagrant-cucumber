@@ -1,3 +1,6 @@
+## 1.0.2 (12 September, 2017)
+ * FIX: Broken regex caused example tests to fail.
+
 ## 1.0.1 (13 December, 2016)
  * FIX: Restore options in pretty formatter.
 
