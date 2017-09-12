@@ -96,10 +96,10 @@ module VagrantPlugins
                                      sudo:        opts[:as_root]
                         ) do |type, data|
                             if @vagrant_cucumber_debug
-                                puts "[:#{type}] #{data.chomp}"
+                                puts "[:#{type}] #{data.scrub.chomp}"
                             end
 
-                            @last_shell_command_output[type] += data
+                            @last_shell_command_output[type] += data.scrub
                         end
                     end
 
