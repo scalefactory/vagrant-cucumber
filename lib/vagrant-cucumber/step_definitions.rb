@@ -136,5 +136,10 @@ end
 
 Before('@vagrant-cucumber-debug') do |_scenario|
     puts 'Enabling debugging for vagrant-cucumber scenarios'
-    @vagrant_cucumber_debug = true
+    $vagrant_cucumber_debug = true
+end
+
+After('@vagrant-cucumber-debug') do |_scenario|
+    puts 'Disabling debugging for vagrant-cucumber scenarios'
+    $vagrant_cucumber_debug = false
 end
