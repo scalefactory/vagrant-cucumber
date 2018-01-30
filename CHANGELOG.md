@@ -1,3 +1,6 @@
+## 1.0.3 (30 January, 2018)
+ * FIX: Fix using @vagrant-cucumber-debug flag
+
 ## 1.0.2 (12 September, 2017)
  * FIX: Broken regex caused example tests to fail.
 
