@@ -41,15 +41,15 @@ Then /there should(| not) be a process called "([^"]*)" running(#{VMRE})$/ do |c
             # output on stdout or stderr.  We handle any output in this block.
             #
             # In this case, we'll put all output onto stdout, but only if
-            # @vagrant_cucumber_debug has been set.  This class variable will
+            # $vagrant_cucumber_debug has been set.  This class variable will
             # be set to true in the Before hook defined in
             # lib/vagrant-cucumber/step_definitions.rb
 
-            puts "[:#{type}] #{data.chomp}" if @vagrant_cucumber_debug
+            puts "[:#{type}] #{data.chomp}" if $vagrant_cucumber_debug
         end
 
         # Output the status from the command if we're in debugging mode
-        puts "Exit status of pidof command: #{rv}" if @vagrant_cucumber_debug
+        puts "Exit status of pidof command: #{rv}" if $vagrant_cucumber_debug
 
         # Cucumber steps are expected to exit cleanly if they worked ok, and
         # raise exceptions if they fail.  The following logic implements

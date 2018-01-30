@@ -95,7 +95,7 @@ module VagrantPlugins
                             command, error_check: false,
                                      sudo:        opts[:as_root]
                         ) do |type, data|
-                            if @vagrant_cucumber_debug
+                            if $vagrant_cucumber_debug
                                 puts "[:#{type}] #{data.chomp}"
                             end
 
