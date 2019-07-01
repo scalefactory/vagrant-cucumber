@@ -57,7 +57,9 @@ end
 
 Given /^there is a running VM called "([^"]*)"$/ do |vmname|
     machine = vagrant_glue.get_vm(vmname)
-    machine.action(:up)
+
+    machine.action(:up) unless machine.state.id == :running
+
     push_snapshot(vmname) unless snapshots_enabled?(vmname)
 end
 
